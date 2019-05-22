@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=56, unique=True)
+    name = models.CharField(blank=False, max_length=56, unique=True)
 
     class Meta:
         verbose_name = 'country'
