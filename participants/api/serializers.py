@@ -14,16 +14,16 @@ class ContestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contest
-        fields = '__all__'
-        # fields = ('year', 'host_country',)
+        # fields = '__all__'
+        fields = ('year', 'host_country',)
 
 
 class CountrySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Country
-        fields = '__all__'
-        # fields = ('name',)
+        # fields = '__all__'
+        fields = ('name',)
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
@@ -38,3 +38,5 @@ class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
         fields = '__all__'
+
+        depth = 1
