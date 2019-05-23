@@ -5,5 +5,5 @@ from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
-router.register('', ArtistViewSet, base_name='artists')
+router.register('', ArtistViewSet)  # , base_name='artists')
 urlpatterns = router.urls

@@ -7,7 +7,7 @@ from contests.api.serializers import ContestSerializer
 from countries.api.serializers import CountrySerializer
 
 
-class ParticipantSerializer(serializers.ModelSerializer):
+class ParticipantSerializer(serializers.HyperlinkedModelSerializer):
     artist_id = ArtistSerializer
     contest_id = ContestSerializer
     country_id = CountrySerializer
