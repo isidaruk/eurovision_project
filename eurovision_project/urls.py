@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from rest_framework.schemas import get_schema_view
+
+
+schema_view = get_schema_view(title='Eurovision API')
 
 api_version = 'v0/'
 api_url = 'api/' + api_version
@@ -26,6 +30,7 @@ api_urlpatterns = [
     path('votes/', include('votes.api.urls')),
     path('contests/', include('contests.api.urls')),
     path('countries/', include('countries.api.urls')),
+    path('schema/', schema_view),
 ]
 
 urlpatterns = [
