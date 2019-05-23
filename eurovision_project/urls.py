@@ -23,6 +23,7 @@ api_url = 'api/' + api_version
 api_urlpatterns = [
     path('artists/', include('artists.api.urls')),
     path('participants/', include('participants.api.urls')),
+    path('votes/', include('votes.api.urls')),
 ]
 
 urlpatterns = [
