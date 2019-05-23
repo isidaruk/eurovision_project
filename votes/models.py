@@ -5,7 +5,7 @@ from countries.models import Country
 
 
 class Vote(models.Model):
-    point = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(12)])
+    point = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(12)], unique=True)
 
     from_country = models.ForeignKey(
         Country,
