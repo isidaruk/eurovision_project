@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'countries.apps.CountriesConfig',
     'contests.apps.ContestsConfig',
+    'artists.apps.ArtistsConfig',
 ]
 
 MIDDLEWARE = [
