@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'contests.apps.ContestsConfig',
     'artists.apps.ArtistsConfig',
     'participants.apps.ParticipantsConfig',
+    'votes.apps.VotesConfig',
 
     'rest_framework',
 ]
