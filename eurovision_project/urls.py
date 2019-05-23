@@ -25,6 +25,7 @@ api_urlpatterns = [
     path('participants/', include('participants.api.urls')),
     path('votes/', include('votes.api.urls')),
     path('contests/', include('contests.api.urls')),
+    path('countries/', include('countries.api.urls')),
 ]
 
 urlpatterns = [
