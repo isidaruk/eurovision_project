@@ -1,9 +1,9 @@
 from django.urls import path
 
-from artists.api.views import ArtistList, ArtistDetail
+from artists.api.views import ArtistViewSet
+from rest_framework.routers import DefaultRouter
 
 
-urlpatterns = [
-    path('', ArtistList.as_view()),
-    path('<int:pk>/', ArtistDetail.as_view()),
-]
+router = DefaultRouter()
+router.register('', ArtistViewSet, base_name='artists')
+urlpatterns = router.urls

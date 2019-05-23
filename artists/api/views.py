@@ -1,14 +1,9 @@
-from rest_framework import generics
+from rest_framework import viewsets
 
 from artists.models import Artist
 from artists.api.serializers import ArtistSerializer
 
 
-class ArtistList(generics.ListCreateAPIView):
-    queryset = Artist.objects.all()
-    serializer_class = ArtistSerializer
-
-
-class ArtistDetail(generics.RetrieveUpdateDestroyAPIView):
+class ArtistViewSet(viewsets.ModelViewSet):
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
