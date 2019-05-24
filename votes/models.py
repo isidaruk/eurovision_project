@@ -21,5 +21,5 @@ class Vote(models.Model):
 
     def __str__(self):
         return '{} points from {} to {} ({})'.format(
-            self.point, self.from_country.name, self.to_country.artist_id.name, self.to_country.country_id.name
+            self.point, self.from_country.name, self.to_country.artist.name, self.to_country.country.name
         )

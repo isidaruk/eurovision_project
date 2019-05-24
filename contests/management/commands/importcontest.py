@@ -22,10 +22,10 @@ class Command(BaseCommand):
 
                 for line in csv_reader:
                     year = line[0]
-                    country_id = line[1]
+                    country = line[1]
 
                     # Check to see if there is a country in database with the given id.
-                    if Country.objects.filter(id=country_id).exists():
+                    if Country.objects.filter(id=country).exists():
 
                         # The year of the Contest should be unique.
                         if Contest.objects.filter(year=year).exists():
@@ -33,11 +33,11 @@ class Command(BaseCommand):
                                 f"The Contest with the year {year} exists in database. Skipped."
                             ))
                         else:
-                            contest = Contest(year=year, host_country=Country.objects.get(id=country_id))  # Is there a better way to go?
+                            contest = Contest(year=year, host_country=Country.objects.get(id=country))  # Is there a better way to go?
                             contest.save()
                     else:
                         self.stdout.write(self.style.WARNING(
-                            f"Country with the given ID: {country_id} does not exists in database. First run the 'loadcountry' command or create Country with that ID manually. Skipped."
+                            f"Country with the given ID: {country} does not exists in database. First run the 'loadcountry' command or create Country with that ID manually. Skipped."
                         ))
 
         except Exception as e:

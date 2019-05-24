@@ -6,18 +6,18 @@ from countries.models import Country
 
 
 class Participant(models.Model):
-    artist_id = models.ForeignKey(
+    artist = models.ForeignKey(
         Artist,
         on_delete=models.CASCADE,
     )
-    country_id = models.ForeignKey(
+    country = models.ForeignKey(
         Country,
         on_delete=models.CASCADE,
     )
 
     song = models.CharField(max_length=200)
 
-    contest_id = models.ForeignKey(
+    contest = models.ForeignKey(
         Contest,
         on_delete=models.CASCADE,
     )
@@ -28,5 +28,5 @@ class Participant(models.Model):
 
     def __str__(self):
         return '{} - {} - {} - Eurovision {}'.format(
-            self.artist_id.name, self.song, self.country_id.name, self.contest_id.year
+            self.artist.name, self.song, self.country.name, self.contest.year
         )

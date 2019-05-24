@@ -8,9 +8,9 @@ from countries.api.serializers import CountrySerializer
 
 
 class ParticipantSerializer(serializers.HyperlinkedModelSerializer):
-    artist_id = ArtistSerializer
-    contest_id = ContestSerializer
-    country_id = CountrySerializer
+    artist = ArtistSerializer
+    contest = ContestSerializer
+    country = CountrySerializer
 
     class Meta:
         model = Participant
