@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'votes.apps.VotesConfig',
 
     'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
