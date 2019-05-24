@@ -4,6 +4,7 @@ from contests.models import Contest
 
 
 class ContestSerializer(serializers.HyperlinkedModelSerializer):
+    host_country = serializers.PrimaryKeyRelatedField(queryset=Contest.objects.all())
 
     class Meta:
         model = Contest
