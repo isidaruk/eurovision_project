@@ -8,16 +8,8 @@ from participants.models import Participant
 class Vote(models.Model):
     point = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(12)], unique=True)
 
-    from_country = models.ForeignKey(
-        Country,
-        on_delete=models.CASCADE,
-        related_name='from_votes',
-    )
-    to_country = models.ForeignKey(
-        Participant,
-        on_delete=models.CASCADE,
-        related_name='to_votes',
-    )
+    from_country = models.ForeignKey(Country, on_delete=models.CASCADE,)
+    to_country = models.ForeignKey(Participant, on_delete=models.CASCADE,)
 
     def __str__(self):
         return '{} points from {} to {} ({})'.format(
