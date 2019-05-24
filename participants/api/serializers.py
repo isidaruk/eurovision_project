@@ -2,15 +2,15 @@ from rest_framework import serializers
 
 from participants.models import Participant
 
-from artists.api.serializers import ArtistSerializer
-from contests.api.serializers import ContestSerializer
-from countries.api.serializers import CountrySerializer
+from artists.models import Artist
+from contests.models import Contest
+from countries.models import Country
 
 
 class ParticipantSerializer(serializers.HyperlinkedModelSerializer):
-    artist = ArtistSerializer
-    contest = ContestSerializer
-    country = CountrySerializer
+    artist = serializers.PrimaryKeyRelatedField(queryset=Artist.objects.all())
+    contest = serializers.PrimaryKeyRelatedField(queryset=Contest.objects.all())
+    country = serializers.PrimaryKeyRelatedField(queryset=Country.objects.all())
 
     class Meta:
         model = Participant
