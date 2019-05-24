@@ -6,21 +6,12 @@ from countries.models import Country
 
 
 class Participant(models.Model):
-    artist = models.ForeignKey(
-        Artist,
-        on_delete=models.CASCADE,
-    )
-    country = models.ForeignKey(
-        Country,
-        on_delete=models.CASCADE,
-    )
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE,)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE,)
 
     song = models.CharField(max_length=200)
 
-    contest = models.ForeignKey(
-        Contest,
-        on_delete=models.CASCADE,
-    )
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE,)
 
     class Meta:
         verbose_name = 'participant'
