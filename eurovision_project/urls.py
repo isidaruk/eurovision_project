@@ -21,6 +21,8 @@ from rest_framework.documentation import include_docs_urls
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from .api import router
+
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,6 +37,7 @@ api_version = 'v0/'
 api_url = 'api/' + api_version
 
 api_urlpatterns = [
+    path('', include(router.urls)),
     path('docs/', include_docs_urls(title='Eurovision API')),
     path('artists/', include('artists.api.urls')),
     path('participants/', include('participants.api.urls')),
