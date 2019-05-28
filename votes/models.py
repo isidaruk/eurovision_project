@@ -12,6 +12,6 @@ class Vote(models.Model):
     to_country = models.ForeignKey(Participant, on_delete=models.CASCADE,)
 
     def __str__(self):
-        return '{} points from {} to {} - {}'.format(
-            self.point, self.from_voter.country, self.to_country.artist.name, self.to_country.country.name
+        return '{} points from {} ({}) to {} - {}'.format(
+            self.point, self.from_voter.country, self.from_voter.vote_key, self.to_country.artist.name, self.to_country.country.name
         )
