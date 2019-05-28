@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'artists.apps.ArtistsConfig',
     'participants.apps.ParticipantsConfig',
     'votes.apps.VotesConfig',
+    'voters.apps.VotersConfig',
 
     'rest_framework',
     'drf_yasg',
