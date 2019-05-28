@@ -23,14 +23,35 @@ class VoteList(APIView):
     """
 
     def get(self, request, format=None):
+        print(request)
         votes = Vote.objects.all()
         serializer = VoteSerializer(votes, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request, format=None):
         serializer = VoteSerializer(data=request.data, context={'request': request})
+        # print(request.headers.get('Token'))
+
         if serializer.is_valid():
+            # Custom Token validation.
+            sended_vote_key = request.headers.get('Token')
+            print('X-auth-token:', sended_vote_key)
+
+            from_voter = serializer.validated_data.get('from_voter')
+            print('Vote Key', from_voter.vote_key)
+
+            if from_voter and sended_vote_key:
+                if str(from_voter.vote_key) == str(sended_vote_key):
+                    print('Your vote was accepted.')
+                elif from_voter.vote_key != sended_vote_key:
+                    # from django.http import HttpResponseBadRequest
+                    # return HttpResponseBadRequest(content='You are not allowed to vote.')
+
+                    from django.core.exceptions import PermissionDenied
+                    raise PermissionDenied()
+
             serializer.save()
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -63,3 +84,16 @@ class VoteDetail(APIView):
         vote = self.get_object(pk)
         vote.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+def get_authorization_header(request):
+    """
+    Return request's 'Authorization:' header, as a bytestring.
+
+    Hide some test client ickyness where the header can be unicode.
+    """
+    auth = request.META.get('HTTP_AUTHORIZATION', b'')
+    if isinstance(auth, text_type):
+        # Work around django test client oddness
+        auth = auth.encode(HTTP_HEADER_ENCODING)
+    return auth
