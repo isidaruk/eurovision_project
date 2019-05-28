@@ -7,7 +7,8 @@ from contests.models import Contest
 from countries.models import Country
 
 
-class ParticipantSerializer(serializers.HyperlinkedModelSerializer):
+# class ParticipantSerializer(serializers.HyperlinkedModelSerializer):
+class ParticipantSerializer(serializers.ModelSerializer):
     artist = serializers.PrimaryKeyRelatedField(queryset=Artist.objects.all())
     contest = serializers.PrimaryKeyRelatedField(queryset=Contest.objects.all())
     country = serializers.PrimaryKeyRelatedField(queryset=Country.objects.all())

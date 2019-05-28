@@ -5,7 +5,8 @@ from voters.models import Voter
 from participants.models import Participant
 
 
-class VoteSerializer(serializers.HyperlinkedModelSerializer):
+# class VoteSerializer(serializers.HyperlinkedModelSerializer):
+class VoteSerializer(serializers.ModelSerializer):
     from_voter = serializers.PrimaryKeyRelatedField(queryset=Voter.objects.all())
     to_country = serializers.PrimaryKeyRelatedField(queryset=Participant.objects.all())
 
