@@ -1,17 +1,17 @@
 from django.db import models
 from django.core.validators import MaxValueValidator
 
-from countries.models import Country
 from participants.models import Participant
+from voters.models import Voter
 
 
 class Vote(models.Model):
     point = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(12)], unique=True)
 
-    from_country = models.ForeignKey(Country, on_delete=models.CASCADE,)
+    from_voter = models.ForeignKey(Voter, on_delete=models.CASCADE, default=None)
     to_country = models.ForeignKey(Participant, on_delete=models.CASCADE,)
 
     def __str__(self):
-        return '{} points from {} to {} ({})'.format(
-            self.point, self.from_country.name, self.to_country.artist.name, self.to_country.country.name
+        return '{} points from {} to {} - {}'.format(
+            self.point, self.from_voter.country, self.to_country.artist.name, self.to_country.country.name
         )
