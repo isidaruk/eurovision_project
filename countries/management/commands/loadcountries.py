@@ -14,7 +14,7 @@ class Command(BaseCommand):
         csv_filename = options['csv_filename']
 
         try:
-            with open(f'{csv_filename}.csv', 'r') as csv_file:
+            with open(f'{csv_filename}', 'r') as csv_file:
                 csv_reader = csv.reader(csv_file)
 
                 next(csv_reader)  # The first linie is the header, loop over the first line.
@@ -32,7 +32,7 @@ class Command(BaseCommand):
                         c.save()
 
         except Exception as e:
-            raise CommandError(f"File '{csv_filename}.csv' does not exist.")
+            raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(
-            f"Data was successfully downloaded to the Country table in database from '{csv_filename}.csv'."))
+            f"Data was successfully downloaded to the Country table in database from '{csv_filename}'."))
