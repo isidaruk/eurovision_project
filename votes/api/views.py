@@ -11,6 +11,7 @@
 
 from votes.models import Vote
 from votes.api.serializers import VoteSerializer
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
@@ -48,11 +49,7 @@ class VoteList(GenericAPIView):
             if from_voter and sended_vote_key:
                 if str(from_voter.vote_key) == str(sended_vote_key):
                     print('Your vote was accepted.')
-                elif from_voter.vote_key != sended_vote_key:
-                    # from django.http import HttpResponseBadRequest
-                    # return HttpResponseBadRequest(content='You are not allowed to vote.')
-
-                    from django.core.exceptions import PermissionDenied
+                else:
                     raise PermissionDenied()
 
             serializer.save()
