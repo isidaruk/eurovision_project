@@ -13,14 +13,19 @@ from votes.models import Vote
 from votes.api.serializers import VoteSerializer
 from django.http import Http404
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
 
-class VoteList(APIView):
+# class VoteList(APIView):
+class VoteList(GenericAPIView):
     """
     List all votes, or create a new vote.
     """
+
+    queryset = Vote.objects.all()
+    serializer_class = VoteSerializer
 
     def get(self, request, format=None):
         print(request)
