@@ -1,0 +1,81 @@
+from django.core.management.base import BaseCommand, CommandError
+
+import csv
+
+from artists.models import Artist
+from contests.models import Contest
+from countries.models import Country
+from participants.models import Participant
+
+
+class Command(BaseCommand):
+    help = 'Loads a data to the Participant table in the database from the specified CSV file'
+
+    def add_arguments(self, parser):
+        parser.add_argument('csv_filename', type=str, help='The CSV file to load data from')
+
+    def handle(self, *args, **options):
+        csv_filename = options['csv_filename']
+
+        # try:
+        #     with open(f'{csv_filename}', 'r') as csv_file:
+        #         csv_reader = csv.reader(csv_file)
+
+        #         next(csv_reader)  # The first linie is the header, loop over the first line.
+
+        #         for artist_id, contest_id, country_id, song in csv_reader:
+        #             # Check if there is any data:
+        #             if not (artist_id and contest_id and country_id and song):
+        #                 self.stdout.write(self.style.WARNING("There are some data missing."))
+        #             else:
+        #                 # If there is Contest, we should check if the Country for this year is not already in db.
+        #                 if Contest.objects.filter(id=contest_id).exists():
+
+        #                     pass
+
+        #                     if Country.objects.filter(id=country_id).exists():
+
+        #                         # If there is an Artist with these ID:
+        #                         p = Participant(artist=Artist.objects.get(id=artist_id),
+        #                                         contest=Contest.objects.get(id=contest_id),
+        #                                         country=Country.objects.get(id=country_id),
+        #                                         song=song
+        #                                         )
+        #                         p.save()
+
+        #                     else:
+        #                         self.stdout.write(self.style.WARNING("Duplicated data are not allowed."))
+
+        # except Exception as e:
+        #     raise CommandError(f"File '{csv_filename}' does not exist.")
+
+        # self.stdout.write(self.style.SUCCESS(
+        #     f"Data was successfully downloaded to the Participant table in database from '{csv_filename}'."))
+
+        with open(f'{csv_filename}', 'r') as csv_file:
+            csv_reader = csv.reader(csv_file)
+
+            next(csv_reader)  # The first linie is the header, loop over the first line.
+
+            for artist_id, contest_id, country_id, song in csv_reader:
+                # Check if there is any data:
+                if not (artist_id and contest_id and country_id and song):
+                    self.stdout.write(self.style.WARNING("There are some data missing."))
+                else:
+                    # If there is Contest, we should check if the Country for this year is not already in db.
+                    if Contest.objects.filter(id=contest_id).exists():
+
+                        pass
+
+                        if Country.objects.filter(id=country_id).exists():
+
+                            # If there is an Artist with these ID:
+                            p = Participant(artist=Artist.objects.get(id=artist_id),
+                                            contest=Contest.objects.get(id=contest_id),
+                                            country=Country.objects.get(id=country_id),
+                                            song=song
+                                            )
+                            p.save()
+
+                        else:
+                            self.stdout.write(self.style.WARNING("Duplicated data are not allowed."))
