@@ -41,18 +41,15 @@ class VoteList(GenericAPIView):
         if serializer.is_valid():
             # Custom Token validation.
             sended_vote_key = request.headers.get('Token')
-            print('X-auth-token:', sended_vote_key)
 
             from_voter = serializer.validated_data.get('from_voter')
-            print('Vote Key', from_voter.vote_key)
 
             if from_voter and sended_vote_key:
                 if str(from_voter.vote_key) == str(sended_vote_key):
-                    print('Your vote was accepted.')
+                    # print('Your vote was accepted.')
+                    serializer.save()
                 else:
                     raise PermissionDenied()
-
-            serializer.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
