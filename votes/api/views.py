@@ -84,16 +84,3 @@ class VoteDetail(APIView):
         vote = self.get_object(pk)
         vote.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-def get_authorization_header(request):
-    """
-    Return request's 'Authorization:' header, as a bytestring.
-
-    Hide some test client ickyness where the header can be unicode.
-    """
-    auth = request.META.get('HTTP_AUTHORIZATION', b'')
-    if isinstance(auth, text_type):
-        # Work around django test client oddness
-        auth = auth.encode(HTTP_HEADER_ENCODING)
-    return auth
