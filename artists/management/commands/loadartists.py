@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 for line in csv_reader:
                     artist_name = line[1]
 
-                    # Check to see if country is already in database.
+                    # Check to see if artist is already in database.
                     if Artist.objects.filter(name=artist_name).exists():
                         self.stdout.write(self.style.WARNING(
                             f"Some data (field Name: {artist_name}) is already exists in the Artist table in database. Skipped."
