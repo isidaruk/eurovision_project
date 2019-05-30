@@ -5,8 +5,23 @@ from participants.models import Participant
 from voters.models import Voter
 
 
+# A total of 1.160 points (1, 2, 3, 4, 5, 6, 7, 8, 10, 12 points x 20 participating countries).
+POINT_CHOICES = [
+    (1, '1 Point'),
+    (2, '2 Points'),
+    (3, '3 Points'),
+    (4, '4 Points'),
+    (5, '5 Points'),
+    (6, '6 Points'),
+    (7, '7 Points'),
+    (8, '8 Points'),
+    (10, '10 Point'),
+    (12, '12 Points'),
+]
+
+
 class Vote(models.Model):
-    point = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(12)], unique=True)
+    point = models.PositiveIntegerField(choices=POINT_CHOICES, default=1, validators=[MaxValueValidator(12)])
 
     from_voter = models.ForeignKey(Voter, on_delete=models.CASCADE, default=None)
     to_participant = models.ForeignKey(Participant, on_delete=models.CASCADE,)
