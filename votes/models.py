@@ -15,7 +15,7 @@ POINT_CHOICES = [
     (6, '6 Points'),
     (7, '7 Points'),
     (8, '8 Points'),
-    (10, '10 Point'),
+    (10, '10 Points'),
     (12, '12 Points'),
 ]
 
