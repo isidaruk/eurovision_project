@@ -64,38 +64,27 @@ class VoteList(GenericAPIView):
 
             # If voter have Token.
             if from_voter and sended_vote_key:
-                if str(from_voter.vote_key) == str(sended_vote_key):
-                    # print('Your vote was accepted.')
-
-                    # Count how many times voter has voted.
-                    if Vote.objects.filter(from_voter=from_voter.id).count() != 10:
-                        # print('Votes still remained.')
-
-                        # If the point is not used.
-                        if Vote.objects.filter(from_voter=from_voter.id).filter(point__iexact=vote_point).count() == 0:  # ?
-
-                            # Voting for your own country.
-                            if voter.country.name != participant.country.name:
-
-                                # Check vote for the same country.
-                                if not Vote.objects.filter(to_participant=to_participant.id).exists():
-                                    print('Your vote was accepted.')
-                                    serializer.save()
-                                else:
-                                    return HttpResponseBadRequest(content="You've already given a point to these participant.")
-
-                            else:
-                                return HttpResponseBadRequest(content='You are not allowed to vote for your own country.')
-
-                        else:
-                            return HttpResponseBadRequest(content=f"{vote_point} point is already given.")
-
-                    else:
-                        return HttpResponseBadRequest(content="You've voted 10 times.")
-
-                else:
-                    # raise PermissionDenied()
+                if str(from_voter.vote_key) != str(sended_vote_key):
                     return HttpResponseForbidden(content='You are not allowed to vote this year.')
+
+                # Count how many times voter has voted.
+                if Vote.objects.filter(from_voter=from_voter.id).count() == 10:
+                    return HttpResponseBadRequest(content="You've voted 10 times.")
+
+                # If the point is not used.
+                if Vote.objects.filter(from_voter=from_voter.id).filter(point__iexact=vote_point).count() != 0:  # ?
+                    return HttpResponseBadRequest(content=f"{vote_point} point is already given.")
+
+                # Voting for your own country.
+                if voter.country.name == participant.country.name:
+                    return HttpResponseBadRequest(content='You are not allowed to vote for your own country.')
+
+                # Check vote for the same country.
+                if not Vote.objects.filter(to_participant=to_participant.id).exists():
+                    print('Your vote was accepted.')
+                    serializer.save()
+                else:
+                    return HttpResponseBadRequest(content="You've already given a point to these participant.")
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
