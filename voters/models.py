@@ -12,4 +12,4 @@ class Voter(models.Model):
     vote_key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
-        return 'Voter from {}, Eurovision {}'.format(self.country.name, self.contest.year)
+        return 'Voter from {}, Eurovision {} ({})'.format(self.country.name, self.contest.year, self.vote_key)
