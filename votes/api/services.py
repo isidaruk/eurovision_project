@@ -5,7 +5,19 @@ from voters.models import Voter
 from participants.models import Participant
 
 
-def check_voters(validated_data, sended_vote_key):
+def check_token(token, from_voter):
+    # if token:
+    #
+    #     # If voter have Token.
+    #     if from_voter and sended_vote_key:
+    #
+    #         if str(from_voter.vote_key) != str(sended_vote_key):
+    #             # return HttpResponseForbidden(content='You are not allowed to vote this year.')
+    #             errors.append('You are not allowed to vote this year.')
+    pass
+
+
+def check_voters(validated_data):
     errors = []
 
     vote_point = validated_data.get('point')
@@ -17,34 +29,26 @@ def check_voters(validated_data, sended_vote_key):
 
     # -*- Check Cases -*-
 
-    # If voter have Token.
-    if from_voter and sended_vote_key:
+    # Count how many times voter has voted.
+    if Vote.objects.filter(from_voter=from_voter.id).count() == 10:
+        # raise PermissionDenied()
+        # return HttpResponseBadRequest(content="You've voted 10 times.")
+        errors.append("You've voted 10 times.")
+    else:
 
-        if str(from_voter.vote_key) != str(sended_vote_key):
-            # return HttpResponseForbidden(content='You are not allowed to vote this year.')
-            errors.append('You are not allowed to vote this year.')
-        else:
+        # If the point is not used.
+        if Vote.objects.filter(from_voter=from_voter.id).filter(point__iexact=vote_point).count() != 0:  # ?
+            # return HttpResponseBadRequest(content=f"{vote_point} point is already given.")
+            errors.append(f"{vote_point} point is already given.")
 
-            # Count how many times voter has voted.
-            if Vote.objects.filter(from_voter=from_voter.id).count() == 10:
-                # raise PermissionDenied()
-                # return HttpResponseBadRequest(content="You've voted 10 times.")
-                errors.append("You've voted 10 times.")
-            else:
+        # Voting for your own country.
+        if voter.country.name == participant.country.name:
+            # return HttpResponseBadRequest(content='You are not allowed to vote for your own country.')
+            errors.append('You are not allowed to vote for your own country.')
 
-                # If the point is not used.
-                if Vote.objects.filter(from_voter=from_voter.id).filter(point__iexact=vote_point).count() != 0:  # ?
-                    # return HttpResponseBadRequest(content=f"{vote_point} point is already given.")
-                    errors.append(f"{vote_point} point is already given.")
-
-                # Voting for your own country.
-                if voter.country.name == participant.country.name:
-                    # return HttpResponseBadRequest(content='You are not allowed to vote for your own country.')
-                    errors.append('You are not allowed to vote for your own country.')
-
-                # Check vote for the same country.
-                if Vote.objects.filter(to_participant=to_participant.id).exists():
-                    # return HttpResponseBadRequest(content="You've already given a point to these participant.")
-                    errors.append("You've already given a point to these participant.")
+        # Check vote for the same country.
+        if Vote.objects.filter(to_participant=to_participant.id).exists():
+            # return HttpResponseBadRequest(content="You've already given a point to these participant.")
+            errors.append("You've already given a point to these participant.")
 
     return errors

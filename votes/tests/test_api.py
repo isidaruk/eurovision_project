@@ -58,3 +58,14 @@ def test_vote_post_endpoint():
 
     assert resp.status_code == 200
     assert schema.is_valid(resp.json())
+
+
+endpoint = 'http://127.0.0.1:8000/api/v0/votes/'
+
+resp = requests.post(endpoint, {
+    "from_voter": "4",
+    "to_participant": "66",
+    "point": "12"
+})
+
+print(resp.__dict__)

@@ -25,12 +25,20 @@ class VoteList(GenericAPIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        # Token validation
+        # sended_vote_key = request.headers.get('Token')
+
+        if check_token(request.headers.get('Token'), request.data.get('from_voter')):
+            pass
+
         serializer = VoteSerializer(data=request.data, context={'request': request})
         # print(request.headers.get('Token'))
 
+
+
         if serializer.is_valid():
             # Custom Token validation.
-            sended_vote_key = request.headers.get('Token')
+
 
             errors = check_voters(serializer.validated_data, sended_vote_key)
 
