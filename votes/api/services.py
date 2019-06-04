@@ -14,7 +14,8 @@ def check_token(token, from_voter):
     #         if str(from_voter.vote_key) != str(sended_vote_key):
     #             # return HttpResponseForbidden(content='You are not allowed to vote this year.')
     #             errors.append('You are not allowed to vote this year.')
-    pass
+    # pass
+    return Voter.objects.filter(id=from_voter, vote_key=token).exists() if (token and from_voter) else False
 
 
 def check_voters(validated_data):
