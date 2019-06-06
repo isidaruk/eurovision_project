@@ -52,3 +52,10 @@ def test_vote_post_endpoint_data(from_voter, to_participant, point, status_code,
     }), headers={"Content-Type": "application/json", "Token": token})
 
     assert resp.status_code == status_code
+
+
+def test_vote_get_endpoint_data():
+    endpoint = 'http://127.0.0.1:8000/api/v0/votes/'
+
+    rsp = requests.get(endpoint)
+    assert rsp.status_code == 200
