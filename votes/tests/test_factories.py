@@ -70,4 +70,5 @@ class VoteFactory(factory.django.DjangoModelFactory):
     # fields
     from_voter = factory.SubFactory(VoterFactory)
     to_participant = factory.SubFactory(ParticipantFactory)
-    point = 1
+    # point = 1
+    point = factory.Iterator([1, 2, 3, 4, 5, 6, 7, 8, 10, 12])
