@@ -18,7 +18,8 @@ class ArtistFactory(factory.django.DjangoModelFactory):
         model = Artist
 
     # fields
-    name = fake.word()
+    # name = fake.word()
+    name = factory.Sequence(lambda n: 'Artist {}'.format(n))
 
 
 class CountryFactory(factory.django.DjangoModelFactory):
@@ -26,7 +27,8 @@ class CountryFactory(factory.django.DjangoModelFactory):
         model = Country
 
     # fields
-    name = fake.word()
+    # name = fake.word()
+    name = factory.Sequence(lambda n: 'Country {}'.format(n))
 
 
 class ContestFactory(factory.django.DjangoModelFactory):
@@ -34,19 +36,20 @@ class ContestFactory(factory.django.DjangoModelFactory):
         model = Contest
 
     # fields
-    # year =
+    year = factory.Sequence(lambda n: 1956 + n)
     host_country = factory.SubFactory(CountryFactory)
 
 
 class ParticipantFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = Voter
+        model = Participant
 
     # fields
     artist = factory.SubFactory(ArtistFactory)
     country = factory.SubFactory(CountryFactory)
 
-    song = factory.word()
+    song = fake.word()
+    # song = factory.Sequence(lambda n: 'Song {}'.format(n))
     contest = factory.SubFactory(ContestFactory)
 
 
@@ -57,7 +60,7 @@ class VoterFactory(factory.django.DjangoModelFactory):
     # fields
     country = factory.SubFactory(CountryFactory)
     contest = factory.SubFactory(ContestFactory)
-    # vote_key =
+    vote_key = factory.Sequence(lambda n: n)
 
 
 class VoteFactory(factory.django.DjangoModelFactory):
@@ -67,4 +70,4 @@ class VoteFactory(factory.django.DjangoModelFactory):
     # fields
     from_voter = factory.SubFactory(VoterFactory)
     to_participant = factory.SubFactory(ParticipantFactory)
-    # point =
+    point = 1
