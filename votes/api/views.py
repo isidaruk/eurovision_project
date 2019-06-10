@@ -5,6 +5,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from voters.models import Voter
 from votes.models import Vote
 from votes.api.serializers import VoteSerializer
 from votes.api.services import check_voters, check_token
@@ -31,13 +32,12 @@ class VoteList(GenericAPIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-
-        logger.info('Test log.')
-
         # Token validation
         # sended_vote_key = request.headers.get('Token')
+        from_voter = request.data.get('from_voter')
 
-        if not check_token(request.headers.get('Token'), request.data.get('from_voter')):
+        if not check_token(request.headers.get('Token'), from_voter):
+            logger.error("Token provided isn't valid.")
             raise PermissionDenied()
 
         serializer = VoteSerializer(data=request.data, context={'request': request})
@@ -46,11 +46,15 @@ class VoteList(GenericAPIView):
         if serializer.is_valid():
             # Custom Token validation.
 
-            errors = check_voters(serializer.validated_data)
+            errors, data = check_voters(serializer.validated_data)
 
             if errors:
+                logger.warning(f'Voter {data[1]} failed to vote for {data[2]} with {data[0]} points: {errors}')
+
                 return Response(data=errors, status=status.HTTP_400_BAD_REQUEST)
             else:
+                logger.info(f'Voter {data[1]} gave {data[0]} points to {data[2]}')
+
                 # Vote was accepted.
                 serializer.save()
 

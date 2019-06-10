@@ -54,4 +54,7 @@ def check_voters(validated_data):
             # return HttpResponseBadRequest(content="You've already given a point to these participant.")
             errors.append("You've already given a point to these participant.")
 
-    return errors
+    data = (vote_point, voter.country.name, participant.country.name)
+    return errors, data
+
+    # return errors
