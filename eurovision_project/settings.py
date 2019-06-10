@@ -139,10 +139,16 @@ REST_FRAMEWORK = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'file': {
+            'format': '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
+        }
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
+            'formatter': 'file',
             'filename': BASE_DIR + '/votes/logs/vote.log',
         },
     },
