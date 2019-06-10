@@ -9,6 +9,11 @@ from votes.models import Vote
 from votes.api.serializers import VoteSerializer
 from votes.api.services import check_voters, check_token
 
+import logging
+
+
+logger = logging.getLogger('vote')
+
 
 # class VoteList(APIView):
 class VoteList(GenericAPIView):
@@ -26,6 +31,9 @@ class VoteList(GenericAPIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+
+        logger.info('Test log.')
+
         # Token validation
         # sended_vote_key = request.headers.get('Token')
 
