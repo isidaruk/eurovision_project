@@ -4,6 +4,8 @@ from django.core.validators import MaxValueValidator
 from participants.models import Participant
 from voters.models import Voter
 
+from votes.tasks import recalculate_total_votes_for_participant
+
 
 # A total of 1.160 points (1, 2, 3, 4, 5, 6, 7, 8, 10, 12 points x 20 participating countries).
 POINT_CHOICES = [
@@ -28,12 +30,7 @@ class Vote(models.Model):
 
     def save(self, *args, **kwags):
         # Task will be defined here.
-
-        from django.db.models import Sum
-
-        print('task')
-        total = Vote.objects.filter(to_participant=self.to_participant.id).aggregate(Sum('point'))
-        print(total['point__sum'])
+        recalculate_total_votes_for_participant.delay(self.to_participant.id)
 
         super(Vote, self).save(*args, **kwags)
 
