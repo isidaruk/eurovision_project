@@ -13,6 +13,8 @@ class Participant(models.Model):
 
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='participants')
 
+    total_score = models.PositiveIntegerField(default=0)
+
     class Meta:
         verbose_name = 'participant'
         verbose_name_plural = 'participants'
