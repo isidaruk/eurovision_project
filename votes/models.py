@@ -26,6 +26,17 @@ class Vote(models.Model):
     from_voter = models.ForeignKey(Voter, on_delete=models.CASCADE, default=None)
     to_participant = models.ForeignKey(Participant, on_delete=models.CASCADE,)
 
+    def save(self, *args, **kwags):
+        # Task will be defined here.
+
+        from django.db.models import Sum
+
+        print('task')
+        total = Vote.objects.filter(to_participant=self.to_participant.id).aggregate(Sum('point'))
+        print(total['point__sum'])
+
+        super(Vote, self).save(*args, **kwags)
+
     def __str__(self):
         return '{} points from {} ({}) to {} - {}'.format(
             self.point, self.from_voter.country, self.from_voter.vote_key, self.to_participant.artist.name, self.to_participant.country.name
