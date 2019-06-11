@@ -37,8 +37,4 @@ def recalculate_total_votes_for_participant(to_participant_id):
     total = Vote.objects.filter(to_participant=to_participant_id).aggregate(Sum('point'))
     total_score = total['point__sum']
 
-    participant = Participant.objects.get(id=to_participant_id)
-    participant.total_score = total_score
-    participant.save()
-
     return total_score
