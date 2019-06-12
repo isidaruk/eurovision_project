@@ -17,6 +17,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from django.core.cache import cache
+
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
 
 # class ParticipantList(APIView):
 class ParticipantList(GenericAPIView):
@@ -52,8 +60,20 @@ class ParticipantDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
+
+        # Get total score for this Participant from cache, or recalculate it.
+        total_score = cache.get(pk, default=None)
+
         participant = self.get_object(pk)
+
+        if total_score is None:
+            total_score = participant.total_score
+            cache.set(pk, total_score, CACHE_TTL)
+
+            print(f'Score for participant {pk}: {cache.get(pk)}. Caching...')
+
         serializer = ParticipantSerializer(participant)
+
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
