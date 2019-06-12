@@ -26,9 +26,13 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
     def get_total_score(self, obj):
 
+        # Get total score for this Participant from cache, or recalculate it.
         total_score_cached = cache.get(obj.pk, default=None)
 
         if total_score_cached is None:
-            return obj.total_score
+            total_score_data = obj.total_score
+            cache.set(pk, total_score_data, CACHE_TTL)
+            print(f'Score for participant {pk}: {total_score_data}. Caching...')
+            return total_score_data
 
         return total_score_cached

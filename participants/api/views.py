@@ -60,16 +60,8 @@ class ParticipantDetail(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-
         participant = self.get_object(pk)
-
-        # Get total score for this Participant from cache, or recalculate it.
-        if cache.get(pk) is None:
-            cache.set(pk, participant.total_score, CACHE_TTL)
-            print(f'Score for participant {pk}: {cache.get(pk)}. Caching...')
-
         serializer = ParticipantSerializer(participant)
-
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
