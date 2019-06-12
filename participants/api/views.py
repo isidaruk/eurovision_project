@@ -61,15 +61,11 @@ class ParticipantDetail(APIView):
 
     def get(self, request, pk, format=None):
 
-        # Get total score for this Participant from cache, or recalculate it.
-        total_score = cache.get(pk, default=None)
-
         participant = self.get_object(pk)
 
-        if total_score is None:
-            total_score = participant.total_score
-            cache.set(pk, total_score, CACHE_TTL)
-
+        # Get total score for this Participant from cache, or recalculate it.
+        if cache.get(pk) is None:
+            cache.set(pk, participant.total_score, CACHE_TTL)
             print(f'Score for participant {pk}: {cache.get(pk)}. Caching...')
 
         serializer = ParticipantSerializer(participant)
