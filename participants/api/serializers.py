@@ -13,6 +13,8 @@ class ParticipantSerializer(serializers.ModelSerializer):
     contest = serializers.PrimaryKeyRelatedField(queryset=Contest.objects.all())
     country = serializers.PrimaryKeyRelatedField(queryset=Country.objects.all())
 
+    total_score = serializers.ReadOnlyField()
+
     class Meta:
         model = Participant
         fields = '__all__'
