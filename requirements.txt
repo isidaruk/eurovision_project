@@ -12,6 +12,7 @@ coreschema==0.0.4
 coverage==4.5.3
 decorator==4.4.0
 Django==2.2.1
+django-debug-toolbar==1.11
 django-redis==4.10.0
 djangorestframework==3.9.4
 drf-yasg==1.15.0
