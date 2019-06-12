@@ -6,6 +6,8 @@ from voters.models import Voter
 
 from votes.tasks import recalculate_total_votes_for_participant
 
+from django.db import transaction
+
 
 # A total of 1.160 points (1, 2, 3, 4, 5, 6, 7, 8, 10, 12 points x 20 participating countries).
 POINT_CHOICES = [
@@ -30,9 +32,10 @@ class Vote(models.Model):
 
     def save(self, *args, **kwags):
         # Task will be defined here.
-        recalculate_total_votes_for_participant.delay(self.to_participant.id)
 
         super(Vote, self).save(*args, **kwags)
+
+        transaction.on_commit(lambda: recalculate_total_votes_for_participant.delay(self.to_participant.id))
 
     def __str__(self):
         return '{} points from {} ({}) to {} - {}'.format(
