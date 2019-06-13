@@ -1,5 +1,5 @@
 import factory
-from faker import Factory
+# from faker import Factory
 
 from artists.models import Artist
 from contests.models import Contest
@@ -10,7 +10,7 @@ from voters.models import Voter
 from votes.models import Vote
 
 
-fake = Factory.create()
+# fake = Factory.create()
 
 
 class ArtistFactory(factory.django.DjangoModelFactory):
@@ -48,7 +48,8 @@ class ParticipantFactory(factory.django.DjangoModelFactory):
     artist = factory.SubFactory(ArtistFactory)
     country = factory.SubFactory(CountryFactory)
 
-    song = fake.word()
+    # song = fake.word()
+    song = factory.Faker('word')
     # song = factory.Sequence(lambda n: 'Song {}'.format(n))
     contest = factory.SubFactory(ContestFactory)
 
