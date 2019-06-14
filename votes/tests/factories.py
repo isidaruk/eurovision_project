@@ -49,7 +49,8 @@ class VoterFactory(factory.django.DjangoModelFactory):
 
     country = factory.SubFactory(CountryFactory)
     contest = factory.SubFactory(ContestFactory)
-    vote_key = factory.Sequence(lambda n: n)
+    # vote_key = factory.Sequence(lambda n: n)
+    vote_key = factory.Faker('uuid4')
 
 
 class VoteFactory(factory.django.DjangoModelFactory):
