@@ -16,7 +16,6 @@ from voters.models import Voter
 from participants.models import Participant
 
 
-# 12 countries for participants, including host_country and country that are not the participant of tested contest
 @pytest.fixture
 def artists():
     return ArtistFactory.create_batch(9)
@@ -27,7 +26,6 @@ def countries():
     return CountryFactory.create_batch(9)
 
 
-# instance of the contest to use
 @pytest.fixture
 def contest():
     country = CountryFactory()
@@ -36,83 +34,20 @@ def contest():
 
 @pytest.fixture
 def participants(artists, countries, contest):
-
-    # participants = []
-    # for a, c in zip(artists, countries):
-    #     participants.append(ParticipantFactory(artist=a, country=c, contest=contest))
-
-    # return participants
-
     return [ParticipantFactory.create(artist=a, country=c, contest=contest) for a, c in zip(artists, countries)]
 
 
 @pytest.fixture
 def voters(countries, contest):
-
-    # voters = []
-    # for c in countries:
-    #     voters.append(VoterFactory(country=c, contest=contest))
-
-    # return voters
-
     return [VoterFactory.create(country=c, contest=contest) for c in countries]
 
 
-# @pytest.mark.django_db
-# def test_vote_post_endpoint_data(client, voters, participants):
-
-#     v = voters[1]
-
-#     p = participants[2]
-
-#     print(len(Voter.objects.all()))
-#     print(len(Participant.objects.all()))
-
-#     print(v)
-#     print(p)
-
-#     from_voter = v.id
-#     to_participant = p.id
-#     point = 12
-#     token = v.vote_key
-
-#     status_code = 201  # if created
-
-#     print('Test data:', v.country.name, '||', p.country.name, '||', point, '||', token)
-
-#     resp = client.post('/api/v0/votes/',
-#                        {
-#                            "from_voter": from_voter,
-#                            "to_participant": to_participant,
-#                            "point": point
-#                        },
-#                        HTTP_TOKEN=f'{token}')
-
-#     data = {
-#         "id": 1,
-#         "from_voter": from_voter,
-#         "to_participant": to_participant,
-#         "point": point
-#     }
-
-#     content = json.loads(resp.content)
-#     print(content)
-
-#     assert resp.status_code == status_code
-#     assert content == data
-
-
-# test case with 10 votes
+# Create 9 votes in db.
 @pytest.fixture
 def votes(voters, participants):
-
-    # vts = []
-    # for p in participants:
-    #     vts.append(VoteFactory(from_voter=voters[0], to_participant=p))
-
-    # return vts
-
     return [VoteFactory(from_voter=voters[0], to_participant=p) for p in participants]
+
+# Create 2 more participants in addition to exising 9.
 
 
 @pytest.fixture
@@ -132,32 +67,34 @@ def two_more_participants(contest):
 @pytest.mark.django_db
 def test_vote_post_cases(client, voters, participants, votes, two_more_participants):
 
+    # The same voter for all cases - Country 0.
     v = voters[0]
+    # print(v)
 
-    # trying to vote for 10th and 11th
+    # Test vote 10th and 11th time.
     p_10 = two_more_participants[0]
     p_11 = two_more_participants[1]
+    # print(p_10)
+    # print(p_11)
 
-    print(len(Voter.objects.all()))
-    print(len(Participant.objects.all()))
-
-    print(v)
-    print(p_10)
-    print(p_11)
+    # print(len(Voter.objects.all()))
+    # print(len(Participant.objects.all()))
 
     from_voter = v.id
-    to_participant = p_10.id
+    to_participant10 = p_10.id
+    to_participant11 = p_11.id
     point = 12
     token = v.vote_key
 
     status_code = 201  # if created
+    status_code2 = 400
 
     print('Test data:', v.country.name, '||', p_10.country.name, '||', point, '||', token)
 
     resp = client.post('/api/v0/votes/',
                        {
                            "from_voter": from_voter,
-                           "to_participant": to_participant,
+                           "to_participant": to_participant10,
                            "point": point
                        },
                        HTTP_TOKEN=f'{token}')
@@ -165,30 +102,28 @@ def test_vote_post_cases(client, voters, participants, votes, two_more_participa
     data = {
         "id": 10,
         "from_voter": from_voter,
-        "to_participant": to_participant,
+        "to_participant": to_participant10,
         "point": point
     }
 
-    content = json.loads(resp.content)
-    print(content)
-
-    assert resp.status_code == status_code
-    assert content == data
-
-    # not allowed case
-    status_code2 = 400  # if created
     resp2 = client.post('/api/v0/votes/',
                         {
                             "from_voter": from_voter,
-                            "to_participant": p_11.id,
+                            "to_participant": to_participant11,
                             "point": point
                         },
                         HTTP_TOKEN=f'{token}')
 
     data2 = ["You've voted 10 times."]
 
+    content = json.loads(resp.content)
+    # print(content)
+
+    assert resp.status_code == status_code
+    assert content == data
+
     content2 = json.loads(resp2.content)
-    print(content2)
+    # print(content2)
 
     assert resp2.status_code == status_code2
     assert content2 == data2
