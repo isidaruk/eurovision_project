@@ -12,6 +12,9 @@ from .factories import (
     # VoteFactory,
 )
 
+from voters.models import Voter
+from participants.models import Participant
+
 
 # 12 countries for participants, including host_country and country that are not the participant of tested contest
 @pytest.fixture
@@ -55,67 +58,45 @@ def voters(countries, contest):
     return [VoterFactory.create(country=c, contest=contest) for c in countries]
 
 
-# ####
-from voters.models import Voter
-from participants.models import Participant
-
-
 @pytest.mark.django_db
-def test_vote_post_endpoint_data(voters, participants):
-    endpoint = 'http://127.0.0.1:8000/api/v0/votes/'
+def test_vote_post_endpoint_data(client, voters, participants):
 
-    # #### take data created from fixtures
-    print('COUNT', Voter.objects.count())
+    v = voters[1]
 
-    for v in Voter.objects.all():
-        print('VOTER ID', v.id)
+    p = participants[2]
 
-    from_voter = Voter.objects.get(id=1).id
-    to_participant = Participant.objects.get(id=2).id
+    print(len(Voter.objects.all()))
+    print(len(Participant.objects.all()))
+
+    print(v)
+    print(p)
+
+    from_voter = v.id
+    to_participant = p.id
     point = 12
-    token = str(voters[0].vote_key)
-    status_code = 200
-    # token = '00000000-0000-0000-0000-000000000000'
-    token = 'a3a805aa-ca20-41da-8c9b-85547990b79f'
+    token = v.vote_key
 
-# ####
-#     from_voter = voters[0].id  # from voter from Country 0
-#     to_participant = participants[1].id  # to participant from Country 1
-#     point = 12
-#     token = str(voters[0].vote_key)
-#     # token = '00000000-0000-0000-0000-000000000000'
-#     token = 'a3a805aa-ca20-41da-8c9b-85547990b79f'  # -- token for id 1 - Belarus
-#     status_code = 200
-# ####
+    status_code = 201  # if created
 
-    print(from_voter, to_participant, point, token)
+    print('Test data:', v.country.name, '||', p.country.name, '||', point, '||', token)
 
-    resp = requests.post(endpoint, data=json.dumps({
+    resp = client.post('/api/v0/votes/',
+                       {
+                           "from_voter": from_voter,
+                           "to_participant": to_participant,
+                           "point": point
+                       },
+                       HTTP_TOKEN=f'{token}')
+
+    data = {
+        "id": 1,
         "from_voter": from_voter,
         "to_participant": to_participant,
         "point": point
-    }), headers={"Content-Type": "application/json", "Token": token})
+    }
 
-    print(resp.content)
+    content = json.loads(resp.content)
+    print(content)
+
     assert resp.status_code == status_code
-
-
-# # #### Test that objects are created in db
-# from voters.models import Voter
-# from participants.models import Participant
-
-
-# @pytest.mark.django_db
-# def test_voters_count(voters):
-#     for v in Voter.objects.all():
-#         print(v)
-
-#     assert Voter.objects.count() == 12  # 4 + 12 if with data created manually
-
-
-# @pytest.mark.django_db
-# def test_participants_count(participants):
-#     for p in Participant.objects.all():
-#         print(p)
-
-#     assert Participant.objects.count() == 12  # 7 + 12 if with data created manually
+    assert content == data
