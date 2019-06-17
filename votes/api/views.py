@@ -1,14 +1,15 @@
-from django.http import Http404
 from django.core.exceptions import PermissionDenied
-from rest_framework.views import APIView
+from django.http import Http404
+
+from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.views import APIView
 
-from voters.models import Voter
-from votes.models import Vote
 from votes.api.serializers import VoteSerializer
-from votes.api.services import check_voters, check_token
+from votes.api.services import check_token, check_voters
+from votes.models import Vote
+from voters.models import Voter
 
 import logging
 
@@ -16,7 +17,6 @@ import logging
 logger = logging.getLogger('vote')
 
 
-# class VoteList(APIView):
 class VoteList(GenericAPIView):
     """
     List all votes, or create a new vote.
@@ -26,32 +26,30 @@ class VoteList(GenericAPIView):
     serializer_class = VoteSerializer
 
     def get(self, request, format=None):
-        # print(request)
         votes = Vote.objects.all()
         serializer = VoteSerializer(votes, many=True, context={'request': request})
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        # Token validation
-        # sended_vote_key = request.headers.get('Token')
         from_voter = request.data.get('from_voter')
 
+        # Token validation.
         if not check_token(request.headers.get('Token'), from_voter):
-            logger.error("Token provided isn't valid.")
+            logger.error(f"Token provided isn't valid. Voter ID is: {from_voter}")
             raise PermissionDenied()
 
         serializer = VoteSerializer(data=request.data, context={'request': request})
-        # print(request.headers.get('Token'))
 
         if serializer.is_valid():
-            # Custom Token validation.
 
+            # Custom Token validation.
             errors, data = check_voters(serializer.validated_data)
 
             if errors:
                 logger.warning(f'Voter {data[1]} failed to vote for {data[2]} with {data[0]} points: {errors}')
 
                 return Response(data=errors, status=status.HTTP_400_BAD_REQUEST)
+
             else:
                 logger.info(f'Voter {data[1]} gave {data[0]} points to {data[2]}')
 
@@ -59,6 +57,10 @@ class VoteList(GenericAPIView):
                 serializer.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        else:
+            logger.error(f"Data is not valid: {serializer.errors}")
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
