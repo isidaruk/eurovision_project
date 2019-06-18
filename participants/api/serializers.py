@@ -15,19 +15,16 @@ from django.core.cache.backends.base import DEFAULT_TIMEOUT
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
-# class ParticipantSerializer(serializers.HyperlinkedModelSerializer):
 class ParticipantSerializer(serializers.ModelSerializer):
     artist = serializers.PrimaryKeyRelatedField(queryset=Artist.objects.all())
     contest = serializers.PrimaryKeyRelatedField(queryset=Contest.objects.all())
     country = serializers.PrimaryKeyRelatedField(queryset=Country.objects.all())
 
-    # total_score = serializers.ReadOnlyField()
     total_score = serializers.SerializerMethodField()
 
     class Meta:
         model = Participant
         fields = '__all__'
-
         depth = 1
 
     def get_total_score(self, obj):
