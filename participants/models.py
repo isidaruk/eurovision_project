@@ -15,8 +15,6 @@ class Participant(models.Model):
 
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='participants')
 
-    # total_score = models.PositiveIntegerField(default=0)
-
     @property
     def total_score(self):
         Vote = apps.get_model('votes.Vote')
