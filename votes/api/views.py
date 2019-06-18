@@ -27,7 +27,7 @@ class VoteList(GenericAPIView):
 
     def get(self, request, format=None):
         votes = Vote.objects.all()
-        serializer = VoteSerializer(votes, many=True, context={'request': request})
+        serializer = VoteSerializer(votes, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -35,33 +35,26 @@ class VoteList(GenericAPIView):
 
         # Token validation.
         if not check_token(request.headers.get('Token'), from_voter):
-            logger.error(f"Token provided isn't valid. Voter ID is: {from_voter}")
+            logger.error(f"Token provided isn't valid. Voter id is: {from_voter}")
             raise PermissionDenied()
 
-        serializer = VoteSerializer(data=request.data, context={'request': request})
+        serializer = VoteSerializer(data=request.data)
 
         if serializer.is_valid():
-
-            # Custom Token validation.
             errors, data = check_voters(serializer.validated_data)
 
             if errors:
                 logger.warning(f'Voter {data[1]} failed to vote for {data[2]} with {data[0]} points: {errors}')
-
                 return Response(data=errors, status=status.HTTP_400_BAD_REQUEST)
-
             else:
-                logger.info(f'Voter {data[1]} gave {data[0]} points to {data[2]}')
-
                 # Vote was accepted.
+                logger.info(f'Voter {data[1]} gave {data[0]} points to {data[2]}')
                 serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         else:
-            logger.error(f"Data is not valid: {serializer.errors}")
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f'Data is not valid: {serializer.errors}')
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class VoteDetail(APIView):
