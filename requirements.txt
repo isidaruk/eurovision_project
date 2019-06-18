@@ -1,6 +1,7 @@
 amqp==2.5.0
 atomicwrites==1.3.0
 attrs==19.1.0
+Babel==2.7.0
 backcall==0.1.0
 billiard==3.6.0.0
 celery==4.3.0
@@ -11,11 +12,14 @@ coreschema==0.0.4
 coverage==4.5.3
 decorator==4.4.0
 Django==2.2.1
+django-debug-toolbar==1.11
+django-redis==4.10.0
 djangorestframework==3.9.4
 drf-yasg==1.15.0
 factory-boy==2.12.0
 Faker==0.9.1
 fancycompleter==0.8
+flower==0.9.3
 httpie==1.0.2
 idna==2.8
 importlib-metadata==0.17
@@ -29,6 +33,7 @@ Jinja2==2.10.1
 kombu==4.6.1
 MarkupSafe==1.1.1
 mixer==6.1.3
+model-mommy==1.6.0
 more-itertools==7.0.0
 packaging==19.0
 parso==0.4.0
@@ -56,6 +61,7 @@ ruamel.yaml==0.15.96
 six==1.12.0
 sqlparse==0.3.0
 text-unidecode==1.2
+tornado==5.1.1
 traitlets==4.3.2
 uritemplate==3.0.0
 urllib3==1.25.3
