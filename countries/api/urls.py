@@ -4,5 +4,6 @@ from countries.api.views import CountryViewSet
 
 
 router = DefaultRouter()
-router.register('', CountryViewSet)#, base_name='countries')
+router.register('', CountryViewSet)
+
 urlpatterns = router.urls
