@@ -1,3 +1,5 @@
+from django.apps import apps
+
 from django.db import models
 
 from artists.models import Artist
@@ -12,6 +14,12 @@ class Participant(models.Model):
     song = models.CharField(max_length=200)
 
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='participants')
+
+    @property
+    def total_score(self):
+        Vote = apps.get_model('votes.Vote')
+
+        return Vote.objects.filter(to_participant=self.id).aggregate(models.Sum('point'))['point__sum']
 
     class Meta:
         verbose_name = 'participant'
