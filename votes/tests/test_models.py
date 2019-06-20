@@ -20,7 +20,3 @@ class TestVote:
 
         vote_obj = mixer.blend('votes.Vote', from_voter=voter_obj, to_participant=to_participant_obj)
         assert vote_obj.pk == 1, 'Should create a Vote instance'
-
-    # def test_init(self):
-    #     obj = mixer.blend('votes.Vote')
-    #     assert obj.pk == 1, 'Should save an instance'
