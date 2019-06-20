@@ -18,7 +18,7 @@ class Command(BaseCommand):
             with open(f'{csv_filename}', 'r') as csv_file:
                 csv_reader = csv.reader(csv_file)
 
-                next(csv_reader)  # The first linie is the header, loop over the first line.
+                next(csv_reader)  # The first line is the header, loop over the first line.
 
                 for line in csv_reader:
                     artist_name = line[1]
