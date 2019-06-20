@@ -33,7 +33,7 @@ def check_voters(validated_data):
     # -*- Check Cases -*-
 
     # Count how many times voter has voted.
-    if Vote.objects.filter(from_voter=from_voter.id).count() == 10:
+    if Vote.objects.filter(from_voter=from_voter.id).count() >= 10:
         # raise PermissionDenied()
         # return HttpResponseBadRequest(content="You've voted 10 times.")
         errors.append("You've voted 10 times.")
