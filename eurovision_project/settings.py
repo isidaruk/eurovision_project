@@ -167,7 +167,7 @@ LOGGING = {
 }
 
 
-# CELERY STUFF
+# CELERY STUFF.
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
@@ -190,15 +190,9 @@ CACHES = {
 
 # Cache time to live is 15 minutes.
 CACHE_TTL = 60 * 15
-# CACHE_TTL = 60
 
 
-# DEBUG_TOOLBAR_CONFIG = {
-#     'SHOW_TOOLBAR_CALLBACK': 'eurovision_project.settings.show_toolbar',
-#     # Rest of config
-# }
-
-# debug_toolbar settings
+# Debug_toolbar settings.
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)
 
