@@ -4,5 +4,6 @@ from voters.api.views import VoterViewSet
 
 
 router = DefaultRouter()
-router.register('', VoterViewSet)  # , base_name='voters')
+router.register('', VoterViewSet)
+
 urlpatterns = router.urls

@@ -1,9 +1,9 @@
 from django.db import models
 
+import uuid
+
 from contests.models import Contest
 from countries.models import Country
-
-import uuid
 
 
 class Voter(models.Model):
