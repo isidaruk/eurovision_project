@@ -6,18 +6,7 @@ from participants.models import Participant
 
 
 def check_token(token, from_voter):
-    # if token:
-    #
-    #     # If voter have Token.
-    #     if from_voter and sended_vote_key:
-    #
-    #         if str(from_voter.vote_key) != str(sended_vote_key):
-    #             # return HttpResponseForbidden(content='You are not allowed to vote this year.')
-    #             errors.append('You are not allowed to vote this year.')
-    # pass
     return str(token) == str(Voter.objects.get(id=from_voter).vote_key)
-
-    # return bool(Voter.objects.get(id=from_voter)) if (token and from_voter) else False
 
 
 def check_voters(validated_data):
@@ -30,31 +19,23 @@ def check_voters(validated_data):
     voter = Voter.objects.get(id=from_voter.id)
     participant = Participant.objects.get(id=to_participant.id)
 
-    # -*- Check Cases -*-
-
     # Count how many times voter has voted.
     if Vote.objects.filter(from_voter=from_voter.id).count() >= 10:
-        # raise PermissionDenied()
-        # return HttpResponseBadRequest(content="You've voted 10 times.")
         errors.append("You've voted 10 times.")
     else:
 
         # If the point is not used.
-        if Vote.objects.filter(from_voter=from_voter.id).filter(point__iexact=vote_point).count() != 0:  # ?
-            # return HttpResponseBadRequest(content=f"{vote_point} point is already given.")
+        if Vote.objects.filter(from_voter=from_voter.id).filter(point__iexact=vote_point).count() != 0:
             errors.append(f"{vote_point} point is already given.")
 
         # Voting for your own country.
         if voter.country.name == participant.country.name:
-            # return HttpResponseBadRequest(content='You are not allowed to vote for your own country.')
             errors.append('You are not allowed to vote for your own country.')
 
         # Check vote for the same country.
         if Vote.objects.filter(to_participant=to_participant.id).exists():
-            # return HttpResponseBadRequest(content="You've already given a point to these participant.")
             errors.append("You've already given a point to these participant.")
 
     data = (vote_point, voter.country.name, participant.country.name)
-    return errors, data
 
-    # return errors
+    return errors, data
