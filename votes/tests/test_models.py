@@ -1,7 +1,3 @@
-from voters.models import Voter
-from participants.models import Participant
-
-
 import pytest
 from mixer.backend.django import mixer
 pytestmark = pytest.mark.django_db
