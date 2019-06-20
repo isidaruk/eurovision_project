@@ -4,5 +4,6 @@ from contests.api.views import ContestViewSet
 
 
 router = DefaultRouter()
-router.register('', ContestViewSet)#, base_name='contests')
+router.register('', ContestViewSet)
+
 urlpatterns = router.urls

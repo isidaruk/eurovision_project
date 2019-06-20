@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
+
 from contests.models import Contest
 from countries.models import Country
 
@@ -6,7 +7,7 @@ import csv
 
 
 class Command(BaseCommand):
-    help = 'Imports a data to the Contest table in the database from the specified CSV file'
+    help = 'Loads a data to the Contest table in the database from the specified CSV file'
 
     def add_arguments(self, parser):
         parser.add_argument('csv_filename', type=str, help='The CSV file to load data from')
@@ -18,7 +19,7 @@ class Command(BaseCommand):
             with open(f'{csv_filename}', 'r') as csv_file:
                 csv_reader = csv.reader(csv_file)
 
-                next(csv_reader)  # The first linie is the header, loop over the first line.
+                next(csv_reader)  # The first line is the header, loop over the first line.
 
                 for line in csv_reader:
                     year = line[0]
@@ -33,7 +34,7 @@ class Command(BaseCommand):
                                 f"The Contest with the year {year} exists in database. Skipped."
                             ))
                         else:
-                            contest = Contest(year=year, host_country=Country.objects.get(id=country))  # Is there a better way to go?
+                            contest = Contest(year=year, host_country=Country.objects.get(id=country))
                             contest.save()
                     else:
                         self.stdout.write(self.style.WARNING(
