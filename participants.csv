@@ -1,8 +1,9 @@
 Artist_ID,Contest_ID,Country_ID,Song
-1,3,157,Arcade
-2,2,,Fairytale
-3,1,21,Work Your Magic
-4,3,166,Spirit in the Sky
-10,3,22,Wake Up
-11,3,203,Sebi
-11,3,203,Sebi
+1,1,157,Arcade
+7,2,,Fairytale
+6,,21,Work Your Magic
+4,1,166,Spirit in the Sky
+3,1,22,Wake Up
+5,1,203,Sebi
+5,1,203,Sebi
+2,1,183,Scream
