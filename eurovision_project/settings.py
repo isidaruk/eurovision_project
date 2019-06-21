@@ -89,8 +89,11 @@ WSGI_APPLICATION = 'eurovision_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'eurovisiondb',
+        'USER': 'postgres',
+        'PASSWORD': 'testing321',
+        'HOST': 'localhost'
     }
 }
 
@@ -208,3 +211,8 @@ if DEBUG:
         'debug_toolbar.panels.logging.LoggingPanel',
         'debug_toolbar.panels.redirects.RedirectsPanel',
     ]
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+        # 'DISABLE_PANELS': [],
+    }
