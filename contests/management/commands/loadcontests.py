@@ -38,7 +38,8 @@ class Command(BaseCommand):
                             contest.save()
                     else:
                         self.stdout.write(self.style.WARNING(
-                            f"Country with the given ID: {country} does not exists in database. First run the 'loadcountry' command or create Country with that ID manually. Skipped."
+                            f"""Country with the given ID: {country} does not exists in database.
+                            First run the 'loadcountry' command or create Country with that ID manually. Skipped."""
                         ))
 
         except Exception as e:

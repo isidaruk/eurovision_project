@@ -35,5 +35,9 @@ class Vote(models.Model):
 
     def __str__(self):
         return '{} points from {} ({}) to {} - {}'.format(
-            self.point, self.from_voter.country, self.from_voter.vote_key, self.to_participant.artist.name, self.to_participant.country.name
+            self.point,
+            self.from_voter.country,
+            self.from_voter.vote_key,
+            self.to_participant.artist.name,
+            self.to_participant.country.name
         )
