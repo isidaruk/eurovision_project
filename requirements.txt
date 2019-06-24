@@ -17,9 +17,11 @@ django-environ==0.4.5
 django-redis==4.10.0
 djangorestframework==3.9.4
 drf-yasg==1.15.0
+entrypoints==0.3
 factory-boy==2.12.0
 Faker==0.9.1
 fancycompleter==0.8
+flake8==3.7.7
 flower==0.9.3
 httpie==1.0.2
 idna==2.8
@@ -33,6 +35,7 @@ jedi==0.13.3
 Jinja2==2.10.1
 kombu==4.6.1
 MarkupSafe==1.1.1
+mccabe==0.6.1
 mixer==6.1.3
 model-mommy==1.6.0
 more-itertools==7.0.0
@@ -48,13 +51,14 @@ psycopg2==2.8.3
 psycopg2-binary==2.8.3
 ptyprocess==0.6.0
 py==1.8.0
+pycodestyle==2.5.0
+pyflakes==2.1.1
 Pygments==2.4.2
 pyparsing==2.4.0
 pytest==4.6.1
 pytest-cov==2.7.1
 pytest-django==3.4.8
 pytest-factoryboy==2.0.2
-pytest-ipdb==0.1
 python-dateutil==2.8.0
 pytz==2019.1
 PyYAML==5.1
