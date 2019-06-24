@@ -54,7 +54,6 @@ pytest==4.6.1
 pytest-cov==2.7.1
 pytest-django==3.4.8
 pytest-factoryboy==2.0.2
-pytest-ipdb==0.1
 python-dateutil==2.8.0
 pytz==2019.1
 PyYAML==5.1
