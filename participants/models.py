@@ -21,6 +21,16 @@ class Participant(models.Model):
 
         return Vote.objects.filter(to_participant=self.id).aggregate(models.Sum('point'))['point__sum']
 
+    @property
+    def voted_count(self):
+        Vote = apps.get_model('votes.Vote')
+
+        return Vote.objects.filter(to_participant=self.id).count()
+
+    @property
+    def count_total_participants(self):
+        return Participant.objects.filter(contest__year=self.contest.year).count()
+
     class Meta:
         verbose_name = 'participant'
         verbose_name_plural = 'participants'
