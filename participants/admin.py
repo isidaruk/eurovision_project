@@ -5,7 +5,7 @@ from .models import Participant
 
 class ParticipantAdmin(admin.ModelAdmin):
 
-    list_display = ('__str__', 'artist', 'country', 'song', 'contest', 'view_total_score', 'voted_count', 'count_total_participants', 'total_voted')
+    list_display = ('__str__', 'view_total_score', 'total_voted')
     list_filter = ('contest', 'contest__year', 'contest__host_country', )
     search_fields = ('contest__year', 'contest__host_country',)
 
