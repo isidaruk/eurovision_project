@@ -7,7 +7,7 @@ class ParticipantAdmin(admin.ModelAdmin):
 
     list_display = ('__str__', 'view_total_score', 'total_voted')
     list_filter = ('contest', 'contest__year', 'contest__host_country', )
-    search_fields = ('contest__year', 'contest__host_country',)
+    search_fields = ('contest__year', 'contest__host_country__name',)
 
     def view_total_score(self, obj):
         return obj.total_score
