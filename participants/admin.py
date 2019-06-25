@@ -14,14 +14,14 @@ class ParticipantAdmin(admin.ModelAdmin):
         return qs.annotate(view_total_score=models.Sum('votes__point'))
 
     def view_total_score(self, obj):
-        return obj.view_total_score  # or 0
+        return obj.view_total_score or 0
 
-    view_total_score.empty_value_display = '0'
     view_total_score.short_description = 'Total score'
     view_total_score.admin_order_field = 'view_total_score'
 
     def total_voted(self, obj):
         return "%s / %s" % (obj.count_voted, obj.count_total_participants)
+
     total_voted.short_description = 'Voted'
 
 
