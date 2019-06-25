@@ -1,4 +1,5 @@
-from django.db import models
+from django.db.models import Sum, Value as V
+from django.db.models.functions import Coalesce
 from django.contrib import admin
 
 from .models import Participant
@@ -11,10 +12,10 @@ class ParticipantAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super(ParticipantAdmin, self).get_queryset(request)
-        return qs.annotate(view_total_score=models.Sum('votes__point'))
+        return qs.annotate(view_total_score=Coalesce(Sum('votes__point'), V(0)))
 
     def view_total_score(self, obj):
-        return obj.view_total_score or 0
+        return obj.view_total_score
 
     view_total_score.short_description = 'Total score'
     view_total_score.admin_order_field = 'view_total_score'
