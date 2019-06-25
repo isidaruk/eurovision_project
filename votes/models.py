@@ -26,7 +26,7 @@ class Vote(models.Model):
     point = models.PositiveIntegerField(choices=POINT_CHOICES, default=1, validators=[MaxValueValidator(12)])
 
     from_voter = models.ForeignKey(Voter, on_delete=models.CASCADE, default=None)
-    to_participant = models.ForeignKey(Participant, on_delete=models.CASCADE,)
+    to_participant = models.ForeignKey(Participant, on_delete=models.CASCADE, related_name='votes')
 
     def save(self, *args, **kwags):
         super(Vote, self).save(*args, **kwags)
