@@ -220,6 +220,5 @@ if DEBUG:
     ]
 
     DEBUG_TOOLBAR_CONFIG = {
-        'INTERCEPT_REDIRECTS': False,
-        # 'DISABLE_PANELS': [],
+        'DISABLE_PANELS': ['debug_toolbar.panels.redirects.RedirectsPanel'],
     }
