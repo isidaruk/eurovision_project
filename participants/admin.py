@@ -11,13 +11,10 @@ class ParticipantAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super(ParticipantAdmin, self).get_queryset(request)
-        qs = qs.annotate(view_total_score=models.Sum('votes__point'))
-        print(qs)
-
-        return qs
+        return qs.annotate(view_total_score=models.Sum('votes__point'))
 
     def view_total_score(self, obj):
-        return obj.view_total_score
+        return obj.view_total_score  # or 0
 
     view_total_score.empty_value_display = '0'
     view_total_score.short_description = 'Total score'
