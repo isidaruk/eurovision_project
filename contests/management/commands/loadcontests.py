@@ -45,7 +45,7 @@ class Command(BaseCommand):
                             First run the 'loadcountry' command or create Country with that ID manually. Skipped."""
                         ))
 
-        except Exception as e:
+        except Exception:
             raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(

@@ -35,7 +35,7 @@ class Command(BaseCommand):
                         a = Artist(name=artist_name)
                         a.save()
 
-        except Exception as e:
+        except Exception:
             raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(

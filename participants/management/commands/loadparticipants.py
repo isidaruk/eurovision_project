@@ -62,7 +62,7 @@ class Command(BaseCommand):
                         else:
                             self.stdout.write(self.style.WARNING(f"The Contest with the ID {contest_id} does not exists in database. Skipped."))
 
-        except Exception as e:
+        except Exception:
             raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(

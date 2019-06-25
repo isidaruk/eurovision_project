@@ -35,7 +35,7 @@ class Command(BaseCommand):
                         c = Country(name=country_name)
                         c.save()
 
-        except Exception as e:
+        except Exception:
             raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(
