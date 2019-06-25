@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
-from votes.models import Vote
-from voters.models import Voter
 from participants.models import Participant
+from voters.models import Voter
+from votes.models import Vote
 
 
 class VoteSerializer(serializers.ModelSerializer):

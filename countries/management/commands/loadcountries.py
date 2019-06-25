@@ -1,7 +1,11 @@
-from django.core.management.base import BaseCommand, CommandError
-from countries.models import Country
-
 import csv
+
+from django.core.management.base import (
+    BaseCommand,
+    CommandError,
+)
+
+from countries.models import Country
 
 
 class Command(BaseCommand):
@@ -31,7 +35,7 @@ class Command(BaseCommand):
                         c = Country(name=country_name)
                         c.save()
 
-        except Exception as e:
+        except Exception:
             raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(

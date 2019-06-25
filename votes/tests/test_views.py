@@ -1,16 +1,17 @@
 import json
+
 import pytest
+
+from votes.models import Vote
 
 from .factories import (
     ArtistFactory,
-    CountryFactory,
     ContestFactory,
+    CountryFactory,
     ParticipantFactory,
-    VoterFactory,
     VoteFactory,
+    VoterFactory,
 )
-
-from votes.models import Vote
 
 
 @pytest.fixture
@@ -104,7 +105,7 @@ def test_vote_for_own_country(client, contest, country_rus, voter_rus):
 
 @pytest.mark.django_db
 def test_vote_with_used_point_and_vote_for_participant_with_point(client, participant_bel, voter_rus):
-    vote = VoteFactory(from_voter=voter_rus, to_participant=participant_bel, point=12)
+    VoteFactory(from_voter=voter_rus, to_participant=participant_bel, point=12)
 
     resp = client.post('/api/v0/votes/',
                        {

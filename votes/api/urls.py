@@ -1,6 +1,10 @@
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
-from votes.api.views import VoteList, VoteDetail
+
+from rest_framework.urlpatterns import (
+    format_suffix_patterns,
+)
+
+from votes.api.views import VoteDetail, VoteList
 
 urlpatterns = [
     path('', VoteList.as_view()),

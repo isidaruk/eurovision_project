@@ -1,6 +1,9 @@
-from django.core.management.base import BaseCommand, CommandError
-
 import csv
+
+from django.core.management.base import (
+    BaseCommand,
+    CommandError,
+)
 
 from artists.models import Artist
 
@@ -32,7 +35,7 @@ class Command(BaseCommand):
                         a = Artist(name=artist_name)
                         a.save()
 
-        except Exception as e:
+        except Exception:
             raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(

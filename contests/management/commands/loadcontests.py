@@ -1,9 +1,12 @@
-from django.core.management.base import BaseCommand, CommandError
+import csv
+
+from django.core.management.base import (
+    BaseCommand,
+    CommandError,
+)
 
 from contests.models import Contest
 from countries.models import Country
-
-import csv
 
 
 class Command(BaseCommand):
@@ -42,7 +45,7 @@ class Command(BaseCommand):
                             First run the 'loadcountry' command or create Country with that ID manually. Skipped."""
                         ))
 
-        except Exception as e:
+        except Exception:
             raise CommandError(f"File '{csv_filename}' does not exist.")
 
         self.stdout.write(self.style.SUCCESS(

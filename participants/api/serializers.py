@@ -1,12 +1,13 @@
-from rest_framework import serializers
+from django.conf import settings
+from django.core.cache import cache
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
-from participants.models import Participant
+from rest_framework import serializers
 
 from artists.models import Artist
 from contests.models import Contest
 from countries.models import Country
-
-from django.core.cache import cache
+from participants.models import Participant
 
 
 class ParticipantSerializer(serializers.ModelSerializer):

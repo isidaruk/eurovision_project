@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from contests.models import Contest
 from contests.api.serializers import ContestSerializer
+from contests.models import Contest
 
 
 class ContestViewSet(viewsets.ModelViewSet):
