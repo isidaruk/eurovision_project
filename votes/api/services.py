@@ -1,9 +1,3 @@
-from django.core.exceptions import PermissionDenied
-from django.http import (
-    HttpResponseBadRequest,
-    HttpResponseForbidden,
-)
-
 from participants.models import Participant
 from voters.models import Voter
 from votes.models import Vote
