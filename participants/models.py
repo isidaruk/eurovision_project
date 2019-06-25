@@ -18,11 +18,14 @@ class Participant(models.Model):
     @property
     def total_score(self):
         Vote = apps.get_model('votes.Vote')
-
-        return Vote.objects.filter(to_participant=self.id).aggregate(models.Sum('point'))['point__sum']
+        total = Vote.objects.filter(to_participant=self.id).aggregate(models.Sum('point'))['point__sum']
+        if total:
+            return total
+        else:
+            return 0
 
     @property
-    def voted_count(self):
+    def count_voted(self):
         Vote = apps.get_model('votes.Vote')
 
         return Vote.objects.filter(to_participant=self.id).count()
