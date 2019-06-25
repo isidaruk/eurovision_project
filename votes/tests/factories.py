@@ -3,7 +3,6 @@ import factory
 from artists.models import Artist
 from contests.models import Contest
 from countries.models import Country
-
 from participants.models import Participant
 from voters.models import Voter
 from votes.models import Vote

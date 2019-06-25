@@ -1,11 +1,11 @@
-from django.db import models, transaction
 from django.core.validators import MaxValueValidator
+from django.db import models, transaction
 
 from participants.models import Participant
 from voters.models import Voter
-
-from votes.tasks import recalculate_total_votes_for_participant
-
+from votes.tasks import (
+    recalculate_total_votes_for_participant,
+)
 
 # A total of 1.160 points (1, 2, 3, 4, 5, 6, 7, 8, 10, 12 points x 20 participating countries).
 POINT_CHOICES = [

@@ -1,6 +1,9 @@
-from django.core.management.base import BaseCommand, CommandError
-
 import csv
+
+from django.core.management.base import (
+    BaseCommand,
+    CommandError,
+)
 
 from artists.models import Artist
 

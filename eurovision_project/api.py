@@ -5,7 +5,6 @@ from contests.api.views import ContestViewSet
 from countries.api.views import CountryViewSet
 from voters.api.views import VoterViewSet
 
-
 router = routers.DefaultRouter()
 
 router.register('artists', ArtistViewSet)

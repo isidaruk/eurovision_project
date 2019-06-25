@@ -1,7 +1,11 @@
-from django.core.management.base import BaseCommand, CommandError
-from countries.models import Country
-
 import csv
+
+from django.core.management.base import (
+    BaseCommand,
+    CommandError,
+)
+
+from countries.models import Country
 
 
 class Command(BaseCommand):

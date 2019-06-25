@@ -1,16 +1,17 @@
 import json
+
 import pytest
+
+from votes.models import Vote
 
 from .factories import (
     ArtistFactory,
-    CountryFactory,
     ContestFactory,
+    CountryFactory,
     ParticipantFactory,
-    VoterFactory,
     VoteFactory,
+    VoterFactory,
 )
-
-from votes.models import Vote
 
 
 @pytest.fixture

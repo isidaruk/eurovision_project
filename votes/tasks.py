@@ -1,9 +1,9 @@
 from __future__ import absolute_import, unicode_literals
 
-from celery import shared_task
-
-from django.db.models import Sum
 from django.apps import apps
+from django.db.models import Sum
+
+from celery import shared_task
 
 
 @shared_task

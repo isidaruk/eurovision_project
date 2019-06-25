@@ -1,3 +1,5 @@
+import logging
+
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 
@@ -6,13 +8,10 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from voters.models import Voter
 from votes.api.serializers import VoteSerializer
 from votes.api.services import check_token, check_voters
 from votes.models import Vote
-from voters.models import Voter
-
-import logging
-
 
 logger = logging.getLogger('vote')
 

@@ -1,6 +1,6 @@
-from django.db import models
-
 import uuid
+
+from django.db import models
 
 from contests.models import Contest
 from countries.models import Country

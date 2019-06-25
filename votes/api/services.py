@@ -1,8 +1,12 @@
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseBadRequest, HttpResponseForbidden
-from votes.models import Vote
-from voters.models import Voter
+from django.http import (
+    HttpResponseBadRequest,
+    HttpResponseForbidden,
+)
+
 from participants.models import Participant
+from voters.models import Voter
+from votes.models import Vote
 
 
 def check_token(token, from_voter):
