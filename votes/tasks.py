@@ -3,10 +3,10 @@ from __future__ import absolute_import, unicode_literals
 import logging
 
 from django.apps import apps
-from django.db.models import Sum
 from django.conf import settings
 from django.core.cache import cache
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.db.models import Sum
 
 from celery import shared_task
 

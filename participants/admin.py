@@ -1,6 +1,7 @@
-from django.db.models import Sum, Value as V
-from django.db.models.functions import Coalesce
 from django.contrib import admin
+from django.db.models import Sum
+from django.db.models import Value as V
+from django.db.models.functions import Coalesce
 
 from .models import Participant
 
