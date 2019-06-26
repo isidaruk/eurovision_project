@@ -20,7 +20,7 @@ class Command(BaseCommand):
             year = line[0]
             country = line[1]
 
-            if not (year or country):
+            if not (year and country):
                 self.stdout.write(self.style.WARNING(f"Data is invalid (or empty: '{year}', '{country}'). Skipped."))
                 break
 
