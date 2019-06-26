@@ -18,6 +18,10 @@ class Command(BaseCommand):
         for line in reader:
             country_name = line[0]
 
+            if not country_name:
+                self.stdout.write(self.style.WARNING('Data is invalid (empty). Skipped.'))
+                break
+
             # Check to see if country is already in database.
             if Country.objects.filter(name=country_name).exists():
                 self.stdout.write(self.style.WARNING(
