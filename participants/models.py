@@ -15,15 +15,6 @@ class Participant(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE, related_name='participants')
 
     @property
-    def total_score(self):
-        Vote = apps.get_model('votes.Vote')
-        total = Vote.objects.filter(to_participant=self.id).aggregate(models.Sum('point'))['point__sum']
-        if total:
-            return total
-        else:
-            return 0
-
-    @property
     def count_voted(self):
         Vote = apps.get_model('votes.Vote')
 
@@ -32,10 +23,6 @@ class Participant(models.Model):
     @property
     def count_total_participants(self):
         return Participant.objects.filter(contest__year=self.contest.year).count()
-
-    class Meta:
-        verbose_name = 'participant'
-        verbose_name_plural = 'participants'
 
     def __str__(self):
         return '{} - {} - {} - Eurovision {}'.format(
