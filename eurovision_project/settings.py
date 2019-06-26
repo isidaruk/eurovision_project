@@ -196,8 +196,8 @@ CACHES = {
     }
 }
 
-# Cache time to live is 15 minutes.
-CACHE_TTL = 60 * 15
+# Cache time to live is 24 hours.
+CACHE_TTL = 86400
 
 
 # Debug_toolbar settings.
