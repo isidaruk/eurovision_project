@@ -18,6 +18,10 @@ class Command(BaseCommand):
         for line in reader:
             artist = line[1]
 
+            if not artist:
+                self.stdout.write(self.style.WARNING('Data is invalid (empty). Skipped.'))
+                break
+
             # Check to see if artist is already in database.
             if Artist.objects.filter(name=artist).exists():
                 self.stdout.write(self.style.WARNING(
@@ -49,4 +53,4 @@ class Command(BaseCommand):
                 f"Successfully downloaded data to the Artist table in database from '{csv_filename}'."
             ))
         else:
-            self.stdout.write(self.style.WARNING('The input file is empty'))
+            self.stdout.write(self.style.WARNING('The input file is empty.'))
