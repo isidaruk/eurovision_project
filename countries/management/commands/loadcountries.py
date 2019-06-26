@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
             if not country_name:
                 self.stdout.write(self.style.WARNING('Data is invalid (empty). Skipped.'))
-                break
+                continue
 
             # Check to see if country is already in database.
             if Country.objects.filter(name=country_name).exists():

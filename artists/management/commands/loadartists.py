@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
             if not artist:
                 self.stdout.write(self.style.WARNING('Data is invalid (empty). Skipped.'))
-                break
+                continue
 
             # Check to see if artist is already in database.
             if Artist.objects.filter(name=artist).exists():

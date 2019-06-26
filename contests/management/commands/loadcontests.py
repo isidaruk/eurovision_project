@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
             if not (year and country):
                 self.stdout.write(self.style.WARNING(f"Data is invalid (or empty: '{year}', '{country}'). Skipped."))
-                break
+                continue
 
             # Check to see if there is a country in database with the given id.
             if Country.objects.filter(id=country).exists():
