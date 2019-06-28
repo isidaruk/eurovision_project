@@ -6,6 +6,8 @@ from artists.models import Artist
 from contests.models import Contest
 from countries.models import Country
 
+from eurovision_project.settings import CACHES
+
 
 class Participant(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE,)
@@ -27,7 +29,8 @@ class Participant(models.Model):
 
     @property
     def cached_total_score(self):
-        return cache.get(f'participant{self.id}')
+        prefix = CACHES['default']['APPS_KEY_PREFIX']['participants']
+        return cache.get(f'{prefix}.{self.id}')
 
     def __str__(self):
         return '{} - {} - {} - Eurovision {}'.format(

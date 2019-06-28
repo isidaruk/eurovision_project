@@ -7,6 +7,8 @@ from contests.models import Contest
 from countries.models import Country
 from participants.models import Participant
 
+from eurovision_project.settings import CACHES
+
 
 class ParticipantSerializer(serializers.ModelSerializer):
     artist = serializers.PrimaryKeyRelatedField(queryset=Artist.objects.all())
@@ -23,4 +25,5 @@ class ParticipantSerializer(serializers.ModelSerializer):
     def get_total_score(self, obj):
         """Get total score for this Participant from cache, or return None."""
 
-        return cache.get(f'participant{obj.pk}', default=None)
+        prefix = CACHES['default']['APPS_KEY_PREFIX']['participants']
+        return cache.get(f'{prefix}.{obj.pk}', default=None)

@@ -192,9 +192,11 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
-        "KEY_PREFIX": "example"
+        "KEY_PREFIX": "example",
+        "APPS_KEY_PREFIX": {'participants': 'participant'},
     }
 }
+
 
 # Cache time to live is 24 hours.
 CACHE_TTL = 86400
