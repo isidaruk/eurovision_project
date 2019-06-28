@@ -1,9 +1,12 @@
 from django.apps import apps
 from django.db import models
+from django.core.cache import cache
 
 from artists.models import Artist
 from contests.models import Contest
 from countries.models import Country
+
+from eurovision_project.settings import CACHES
 
 
 class Participant(models.Model):
@@ -23,6 +26,11 @@ class Participant(models.Model):
     @property
     def count_total_participants(self):
         return Participant.objects.filter(contest__year=self.contest.year).count()
+
+    @property
+    def cached_total_score(self):
+        prefix = CACHES['default']['APPS_KEY_PREFIX']['participants']
+        return cache.get(f'{prefix}.{self.id}')
 
     def __str__(self):
         return '{} - {} - {} - Eurovision {}'.format(
