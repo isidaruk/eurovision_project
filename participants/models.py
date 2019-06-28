@@ -1,5 +1,6 @@
 from django.apps import apps
 from django.db import models
+from django.core.cache import cache
 
 from artists.models import Artist
 from contests.models import Contest
@@ -23,6 +24,10 @@ class Participant(models.Model):
     @property
     def count_total_participants(self):
         return Participant.objects.filter(contest__year=self.contest.year).count()
+
+    @property
+    def cached_total_score(self):
+        return cache.get(f'participant{self.id}')
 
     def __str__(self):
         return '{} - {} - {} - Eurovision {}'.format(

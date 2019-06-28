@@ -7,7 +7,7 @@ from .models import Participant
 
 
 class ParticipantAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'view_total_score', 'total_voted',)
+    list_display = ('__str__', 'view_total_score', 'total_voted', 'cached_total_score',)
     list_filter = ('contest', 'contest__year', 'contest__host_country',)
     search_fields = ('contest__year', 'contest__host_country__name',)
 
@@ -25,6 +25,11 @@ class ParticipantAdmin(admin.ModelAdmin):
         return "%s / %s" % (obj.count_voted, obj.count_total_participants)
 
     total_voted.short_description = 'Voted'
+
+    def cached_total_score(self, obj):
+        return obj.cached_total_score
+
+    cached_total_score.short_description = 'Cached total score'
 
 
 admin.site.register(Participant, ParticipantAdmin)
