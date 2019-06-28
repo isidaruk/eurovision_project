@@ -23,4 +23,4 @@ class ParticipantSerializer(serializers.ModelSerializer):
     def get_total_score(self, obj):
         """Get total score for this Participant from cache, or return None."""
 
-        return cache.get(obj.pk, default=None)
+        return cache.get(f'participant{obj.pk}', default=None)

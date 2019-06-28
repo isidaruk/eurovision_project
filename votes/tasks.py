@@ -21,7 +21,7 @@ def recalculate_total_votes_for_participant(to_participant_id):
     total = Vote.objects.filter(to_participant=to_participant_id).aggregate(Sum('point'))
     total_score = total['point__sum']
 
-    cache.set(to_participant_id, total_score, CACHE_TTL)
+    cache.set(f'participant{to_participant_id}', total_score, CACHE_TTL)
     logger.info(f'Score for participant {to_participant_id}: {total_score}. Caching...')
 
     return total_score
