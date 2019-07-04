@@ -189,9 +189,7 @@ LOGGING = {
         },
         'sentry': {
             'level': 'WARNING',
-            'class': 'raven.handlers.logging.SentryHandler',
-            # 'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-            'dsn': env('SENTRY_DSN'),
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
         },
         'console': {
             'level': 'DEBUG',
@@ -206,11 +204,6 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        # 'raven': {
-        #     'level': 'DEBUG',
-        #     'handlers': ['console'],
-        #     'propagate': False,
-        # },
         'sentry.errors': {
             'level': 'DEBUG',
             'handlers': ['console'],
