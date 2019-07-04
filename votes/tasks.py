@@ -12,7 +12,6 @@ from celery import shared_task
 
 from eurovision_project.settings import CACHES
 
-
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 logger = logging.getLogger('vote')
