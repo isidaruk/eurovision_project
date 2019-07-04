@@ -63,6 +63,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'debug_toolbar',
+    'raven',
+    'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE = [
@@ -155,11 +157,28 @@ REST_FRAMEWORK = {
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['sentry'],
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
     'formatters': {
         'file': {
             'format': '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
-        }
+        },
+        'verbose': {
+            'format': '[%(asctime)s][%(levelname)s] %(name)s '
+                      '%(filename)s:%(funcName)s:%(lineno)d | %(message)s',
+            'datefmt': '%H:%M:%S',
+        },
     },
     'handlers': {
         'file': {
@@ -168,12 +187,34 @@ LOGGING = {
             'formatter': 'file',
             'filename': BASE_DIR + '/votes/logs/vote.log',
         },
+        'sentry': {
+            'level': 'WARNING',
+            'class': 'raven.handlers.logging.SentryHandler',
+            # 'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'dsn': env('SENTRY_DSN'),
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+            'formatter': 'verbose'
+        }
     },
     'loggers': {
         'vote': {
-            'handlers': ['file'],
+            'handlers': ['console', 'file', 'sentry'],
             'level': 'DEBUG',
-            'propagate': True,
+            'propagate': False,
+        },
+        # 'raven': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        #     'propagate': False,
+        # },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
         },
     },
 }
