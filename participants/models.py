@@ -1,11 +1,10 @@
 from django.apps import apps
-from django.db import models
 from django.core.cache import cache
+from django.db import models
 
 from artists.models import Artist
 from contests.models import Contest
 from countries.models import Country
-
 from eurovision_project.settings import CACHES
 
 

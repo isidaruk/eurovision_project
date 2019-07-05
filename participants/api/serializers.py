@@ -5,9 +5,8 @@ from rest_framework import serializers
 from artists.models import Artist
 from contests.models import Contest
 from countries.models import Country
-from participants.models import Participant
-
 from eurovision_project.settings import CACHES
+from participants.models import Participant
 
 
 class ParticipantSerializer(serializers.ModelSerializer):

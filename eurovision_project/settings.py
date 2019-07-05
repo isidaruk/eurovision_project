@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 import environ
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -61,6 +63,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'debug_toolbar',
+    'raven',
+    'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE = [
@@ -153,11 +157,28 @@ REST_FRAMEWORK = {
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['sentry'],
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
     'formatters': {
         'file': {
             'format': '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
-        }
+        },
+        'verbose': {
+            'format': '[%(asctime)s][%(levelname)s] %(name)s '
+                      '%(filename)s:%(funcName)s:%(lineno)d | %(message)s',
+            'datefmt': '%H:%M:%S',
+        },
     },
     'handlers': {
         'file': {
@@ -166,12 +187,27 @@ LOGGING = {
             'formatter': 'file',
             'filename': BASE_DIR + '/votes/logs/vote.log',
         },
+        'sentry': {
+            'level': 'WARNING',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+            'formatter': 'verbose'
+        }
     },
     'loggers': {
         'vote': {
-            'handlers': ['file'],
+            'handlers': ['console', 'file', 'sentry'],
             'level': 'DEBUG',
-            'propagate': True,
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
         },
     },
 }
@@ -224,3 +260,10 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         'DISABLE_PANELS': ['debug_toolbar.panels.redirects.RedirectsPanel'],
     }
+
+
+# The Sentry integration
+sentry_sdk.init(
+    dsn=env('SENTRY_DSN'),
+    integrations=[DjangoIntegration()]
+)
