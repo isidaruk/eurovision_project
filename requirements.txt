@@ -14,6 +14,7 @@ decorator==4.4.0
 Django==2.2.1
 django-debug-toolbar==1.11
 django-environ==0.4.5
+django-extensions==2.1.9
 django-redis==4.10.0
 djangorestframework==3.9.4
 drf-yasg==1.15.0
@@ -55,6 +56,7 @@ py==1.8.0
 pycodestyle==2.5.0
 pyflakes==2.1.1
 Pygments==2.4.2
+pygraphviz==1.5
 pyparsing==2.4.0
 pytest==4.6.1
 pytest-cov==2.7.1
