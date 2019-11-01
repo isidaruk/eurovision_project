@@ -23,7 +23,7 @@ Faker==0.9.1
 fancycompleter==0.8
 flake8==3.7.7
 flower==0.9.3
-httpie==1.0.2
+httpie==1.0.3
 idna==2.8
 importlib-metadata==0.17
 inflection==0.3.1
