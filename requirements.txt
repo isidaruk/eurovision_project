@@ -22,7 +22,7 @@ factory-boy==2.12.0
 Faker==0.9.1
 fancycompleter==0.8
 flake8==3.7.7
-flower==0.9.3
+flower==1.2.0
 httpie==1.0.2
 idna==2.8
 importlib-metadata==0.17
